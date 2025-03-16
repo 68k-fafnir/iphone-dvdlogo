@@ -1,7 +1,7 @@
 # DvdLogo
 puts a bouncing dvd logo over your iPhone to fuel your [dopamine](https://github.com/opa334/Dopamine) addiction. (requires a jailbroken iPhone)
 
- Uses code from [Snoverlay](https://github.com/leftyfl1p/Snoverlay) for drawing over the screen.
+ Forked from [Snoverlay](https://github.com/leftyfl1p/Snoverlay), uses Snoverlay code for drawing images over the screen.
 
  this demo video is slower than real life my screen recrorder bugged
  ![](demo.gif)
