@@ -3,6 +3,7 @@ puts a bouncing dvd logo over your iPhone to fuel your [dopamine](https://github
 
  Uses code from [Snoverlay](https://github.com/leftyfl1p/Snoverlay) for drawing over the screen.
 
+ this demo video is slower than real life my screen recrorder bugged
  ![](demo.gif)
  
  ## Installation
