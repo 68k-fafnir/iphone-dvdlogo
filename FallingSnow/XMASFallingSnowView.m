@@ -5,8 +5,8 @@
 #import <stdlib.h>
 #import <stdint.h>
 
-#define kDefaultFlakesCount 160
-#define kDefaultFlakeWidth 20.0
+#define kDefaultFlakesCount 1
+#define kDefaultFlakeWidth 52.0
 #define kDefaultFlakeHeight 23.0
 #define kDefaultFlakeFileName @"XMASSnowflake.png"
 #define kDefaultMinimumSize 0.4
@@ -33,42 +33,42 @@
     return self;
 }
 
-
 - (void)beginSnowAnimation {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     // Clean up if we go to the background as CABasicAnimations tend to do odd things then
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(endSnowAnimationFromNotification:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 
-    // Prepare Rotation Animation
-    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.y"];
-    rotationAnimation.repeatCount       = HUGE_VALF;
-    rotationAnimation.autoreverses      = NO;
-    rotationAnimation.toValue = [NSNumber numberWithFloat:M_PI * 2];	// 360 degrees in radians
-
     // Prepare Vertical Motion Animation
     CABasicAnimation *fallAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.y"];
     fallAnimation.repeatCount       = HUGE_VALF;
-    fallAnimation.autoreverses      = NO;
+    fallAnimation.autoreverses      = YES;
+
+    CABasicAnimation *sideAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
+    sideAnimation.repeatCount       = HUGE_VALF;
+    sideAnimation.autoreverses      = YES;
 
     for (UIImageView *flake in self.flakesArray) {
         CGPoint flakeStartPoint     = flake.center;
-        float flakeStartY           = flakeStartPoint.y;
-        float flakeEndY             = self.frame.size.height;
-        flakeStartPoint.y           = flakeEndY;
+	float flakeStartX           = flakeStartPoint.x; 
+	float flakeStartY           = flakeStartPoint.y;
+	float flakeEndX             = self.frame.size.width-(self.flakeWidth/2);
+        float flakeEndY             = self.frame.size.height-(self.flakeHeight/2);
+	flakeStartPoint.x           = flakeEndX;
+	flakeStartPoint.y           = flakeEndY;
         flake.center                = flakeStartPoint;
 
         // Randomize the time each flake takes to animate to give texture
-        float timeInterval = (self.animationDurationMax - self.animationDurationMin) * arc4random() / UINT32_MAX;
-        fallAnimation.duration = timeInterval + self.animationDurationMin;
+        fallAnimation.duration = 6.0;
         fallAnimation.fromValue = [NSNumber numberWithFloat:-flakeStartY];
-        [flake.layer addAnimation:fallAnimation forKey:@"transform.translation.y"];
 
-        rotationAnimation.duration = timeInterval * 2; // Makes sure that we don't get super-fast spinning flakes
-        [flake.layer addAnimation:rotationAnimation forKey:@"transform.rotation.y"];
+	sideAnimation.duration = 7.0;
+	sideAnimation.fromValue = [NSNumber numberWithFloat:-flakeStartX];
+
+        [flake.layer addAnimation:fallAnimation forKey:@"transform.translation.y"];
+	[flake.layer addAnimation:sideAnimation forKey:@"transform.translation.x"];
     }
 }
-
 
 - (void)endSnowAnimationFromNotification:(NSNotification *)notification {
     [self endSnowAnimation];
@@ -95,21 +95,18 @@
 
         for (int i = 0; i < self.flakesCount; i++) {
             // Randomize Flake size
-            float flakeScale = 1.0 * arc4random() / UINT32_MAX;
+            float flakeScale = 1.0;
 
             // Make sure that we don't break the current size rules
-            flakeScale          = flakeScale < self.flakeMinimumSize ? self.flakeMinimumSize : flakeScale;
             float flakeWidth    = self.flakeWidth * flakeScale;
             float flakeHeight   = self.flakeHeight * flakeScale;
 
             // Allow flakes to be partially offscreen
-            float flakeXPosition = self.frame.size.width * arc4random() / UINT32_MAX;
-            flakeXPosition -= flakeWidth;
+            float flakeXPosition = self.frame.size.width - (flakeWidth) - (flakeWidth/2);
 
             // enlarge content height by 1/2 view height, screen is always well populated
-            float flakeYPosition = self.frame.size.height * 1.5 * arc4random() / UINT32_MAX;
+            float flakeYPosition = self.frame.size.height - (flakeHeight) - (flakeHeight/2);
             // flakes start y position is above upper view bound, add view height
-            flakeYPosition += self.frame.size.height;
 
             CGRect frame = CGRectMake(flakeXPosition, flakeYPosition, flakeWidth, flakeHeight);
 

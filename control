@@ -1,9 +1,9 @@
-Package: com.leftyfl1p.snoverlay
-Name: Snoverlay
+Package: com.fafnir.dvdlogo
+Name: DvdLogo
 Depends: mobilesubstrate
 Version: 1.1
 Architecture: iphoneos-arm
-Description: Overlay snowflakes on top of your screen!
-Maintainer: leftyfl1p <leftyfl1p@icloud.com>
-Author: leftyfl1p <leftyfl1p@icloud.com>
+Description: dvd logo on your phone
+Maintainer: fafnir
+Author: fafnir
 Section: Tweaks

@@ -2,6 +2,7 @@
 
 
 #define prefPath @"/User/Library/Preferences/com.leftyfl1p.snoverlay.plist"
+#define HBLogDebug NSLog
 static BOOL enabled = YES;
 static BOOL wallpaperOnly = NO;
 static NSMutableDictionary *prefs = nil;
