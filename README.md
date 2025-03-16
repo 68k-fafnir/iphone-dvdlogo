@@ -2,6 +2,8 @@
 puts a bouncing dvd logo over your iPhone to fuel your [dopamine](https://github.com/opa334/Dopamine) addiction
 
  Uses code from [Snoverlay](https://github.com/leftyfl1p/Snoverlay) for drawing over the screen.
+
+ ![](demo.gif)
  
  ## Installation
  For arm64, download the deb from releases. For arm64e, the arm64 deb *might* work (try it), or you can build from source. iOS version requirements are unknown, tested on iPhone 5s iOS 10.3.3 only. Definitely doesn't work on rootless.
